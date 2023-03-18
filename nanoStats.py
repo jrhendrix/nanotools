@@ -21,12 +21,11 @@ def main(program):
 	# TODO add exact match
 
 	# PARSER : ROOT
-	parent_parser = argparse.ArgumentParser(prog='nanoLength', add_help=False)
+	parent_parser = argparse.ArgumentParser(prog='nanoStats', add_help=False)
 	parent_parser.add_argument('-i', '--input_file', help='Path to input directory')
-	#parent_parser.add_argument('-o', '--output_directory', default='filtered_reads', help='Name of output directory')
 	parent_parser.add_argument('-m', '--min_qscore', default=0, help='Minimum qscore to consider read', type=float)
 	parent_parser.add_argument('-p', '--output_path', default=cwd, help='Path to output', type=str)
-	parent_parser.add_argument('-s', '--savename', default='nano', help='Name of output file', type=str)
+	parent_parser.add_argument('-s', '--savename', default='nano', help='Name of output files', type=str)
 	subparsers = parent_parser.add_subparsers(help='sub-command help')
 
 	args = parent_parser.parse_args()
@@ -34,10 +33,9 @@ def main(program):
 
 	# CREATE TABLE OUTPUT
 	try:
-		outdir = args.output_path
-		if not os.path.exists(outdir):
-			os.mkdir(outdir)
-		prefix = '/'.join((outdir, args.savename))
+		if not os.path.exists(args.output_path):
+			os.mkdir(args.output_path)
+		prefix = '/'.join((args.output_path, args.savename))
 
 		outf = "_".join((prefix, 'reads.tsv'))
 
@@ -96,13 +94,8 @@ def main(program):
 
 	# CREATE REPORT OUTPUT
 	try:
-		outdir = args.output_path
-		if not os.path.exists(outdir):
-			os.mkdir(outdir)
-		prefix = '/'.join((outdir, args.savename))
-
-		outf = "_".join((prefix, 'stats.tsv'))
-
+		# Use same prefix as for table file
+		outf = "_".join((prefix, 'stats.txt'))
 		f3 = open(outf, 'w')
 
 	except:
@@ -123,14 +116,14 @@ def main(program):
 	qMed = statistics.median(quals)
 	qStd = statistics.stdev(quals)
 
-	data = (f'Total reads: {str(count)}',
-			f'Total bases: {str(lNum)},'
+	data = (f'Total reads: {str("{:,}".format(count))}',
+			f'Total bases: {str("{:,}".format(lNum))}',
 			'',
-			f'length average: {str(lAvg)}',
-			f'length median: {str(lMed)}',
-			f'length minimum: {str(lMin)}',
-			f'length maximum: {str(lMax)}',
-			f'length stan dev: {str(lStd)}',
+			f'length average: {str("{:,}".format(lAvg))}',
+			f'length median: {str("{:,}".format(lMed))}',
+			f'length minimum: {str("{:,}".format(lMin))}',
+			f'length maximum: {str("{:,}".format(lMax))}',
+			f'length stan dev: {str("{:,}".format(lStd))}',
 			'',
 			f'quality average: {str(qAvg)}',
 			f'quality median: {str(qMed)}',
