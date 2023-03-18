@@ -24,6 +24,7 @@ def main(program):
 	parent_parser = argparse.ArgumentParser(prog='nanoLength', add_help=False)
 	parent_parser.add_argument('-i', '--input_file', help='Path to input directory')
 	#parent_parser.add_argument('-o', '--output_directory', default='filtered_reads', help='Name of output directory')
+	parent_parser.add_argument('-m', '--min_qscore', default=0, help='Minimum qscore to consider read', type=float)
 	parent_parser.add_argument('-p', '--output_path', default=cwd, help='Path to output', type=str)
 	parent_parser.add_argument('-s', '--savename', default='nano', help='Name of output file', type=str)
 	subparsers = parent_parser.add_subparsers(help='sub-command help')
@@ -77,6 +78,8 @@ def main(program):
 		length = len(seq)
 		quality = sum([ord(n)-33 for n in q]) / len(q)
 
+		if quality < args.min_qscore:
+			continue
 		lens.append(length)
 		quals.append(quality)
 
@@ -121,6 +124,7 @@ def main(program):
 	qStd = statistics.stdev(quals)
 
 	data = (f'Total reads: {str(count)}',
+			f'Total bases: {str(lNum)},'
 			'',
 			f'length average: {str(lAvg)}',
 			f'length median: {str(lMed)}',
