@@ -9,8 +9,28 @@ Fastq files contain four lines for each read. Line 1 specifies the read ID and a
 nanoStats.py provides two outputs to the user. 
 * Table file (.tsv format): A table where each record contains the read ID, read length, and average quality score. 
 * Report file: Provides basic statistics on the length and quality metrics. 
-** Total read number
-** Length: mean, median, minimum, maximum, standard deviation, and total bases
-** Average read quality: mean, median, minimum, maximum, and standard deviation
+    * Total read number
+    * Total number of bases
+    * Length: mean, median, minimum, maximum, and standard deviation
+    * Average read quality: mean, median, minimum, maximum, and standard deviation
 
 Finally, nanoStats.py offers the option to filter the reads based on quality so that only reads with an average quality score at or above this threshold are displayed in the table and assessed for the report.
+
+## Requirements
+* Python and Python standard libraries
+
+## Usage
+```
+# Example: Basic usage
+python nanoStats.py -i input.fastq
+
+# Example: Send output to another directory
+python nanoStats.py -i input.fastq -p /other/path/
+
+# Example: Change name of output
+python nanoStats.py -i input.fastq -s newname
+
+# Example: Calculate stats on reads with average qscore > 10
+python nanoStats.py -i input.fastq -m 10
+```
+
