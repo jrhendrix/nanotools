@@ -1,5 +1,5 @@
 # nanotools
-A repository of tools for analyzing nanopore data
+A repository of tools for analyzing Oxford Nanopore Technologies (ONT) data
 
 # nanoStats
 nanoStats.py calculates the read length and average quality score for each read in a Fastq file.
